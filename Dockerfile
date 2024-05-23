@@ -3,10 +3,14 @@ FROM python:3.11
 WORKDIR /.
 
 COPY requirements.txt .
-
-#RUN python -m pip install --progress-bar off --upgrade pip
-RUN python -m pip install --progress-bar off -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8081"]
+RUN chmod a+x docker/*.sh
+
+RUN alembic upgrade head
+
+WORKDIR src
+
+CMD gunicorn main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000

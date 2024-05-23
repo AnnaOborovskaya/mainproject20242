@@ -6,7 +6,7 @@ import uvicorn
 from db import *
 
 app = FastAPI()
-await create_tables()
+create_tables()
 
 app.include_router(users_router)
 app.include_router(orders_router)

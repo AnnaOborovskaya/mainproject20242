@@ -3,9 +3,10 @@ from fastapi.responses import FileResponse
 from public.users import users_router
 from public.orders import orders_router
 import uvicorn
-
+from db import *
 
 app = FastAPI()
+create_tables()
 
 app.include_router(users_router)
 app.include_router(orders_router)
